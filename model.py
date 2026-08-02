@@ -1,4 +1,5 @@
 import os
+import re
 import math
 import asyncio
 import pandas as pd
@@ -8,8 +9,14 @@ from pydantic import BaseModel, Field
 # LangChain & Gemini Imports
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import HumanMessage
+import warnings
+
+# Suppress non-critical LangGraph deprecation warnings
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", module="langgraph")
+
+from langgraph.prebuilt import create_react_agent
 
 # ==========================================
 # 1. DETERMINISTIC CAPACITY & FLOW ENGINE
@@ -169,10 +176,10 @@ def tool_evaluate_interventions(order_qty: int, shortfall_hours: float) -> str:
 # ==========================================
 
 def build_bonton_agent():
-    # Initialize Gemini Model via ChatGoogleGenerativeAI
+    # Initialize Gemini Model
     llm = ChatGoogleGenerativeAI(
         model="gemini-3.1-flash-lite",
-        google_api_key="=============API_KEY_HERE===============",
+        google_api_key="============API_KEY============",
         temperature=0.1
     )
 
@@ -184,17 +191,45 @@ def build_bonton_agent():
 
     system_prompt = (
         "You are the Bonton Agentic Production Planner Supervisor. "
-        "Your task is to analyze order capacity, identify binding constraints, compare monolithic vs transfer batch makespans, "
-        "and recommend costed interventions. Always ground your answers in calculations from tool calls."
+        "Your task is to analyze order capacity, identify binding constraints, "
+        "compare monolithic vs transfer batch makespans, and recommend costed "
+        "interventions. Always ground your answers in calculations from tool calls."
     )
 
-    # Create ReAct Agent using LangGraph prebuilt agent
+    # ReReact Agent using langgraph.prebuilt
     agent = create_react_agent(
         model=llm,
         tools=tools,
         prompt=system_prompt
     )
     return agent
+
+def format_agent_response(response: dict) -> str:
+    """
+    Extracts, cleans, and formats the response for a clean CLI presentation.
+    """
+    messages = response.get("messages", [])
+    if not messages:
+        return "No response content generated."
+
+    last_message = messages[-1].content
+
+    # Extract text content
+    if isinstance(last_message, list):
+        text_blocks = [
+            item.get("text", "") 
+            for item in last_message 
+            if isinstance(item, dict) and item.get("type") == "text"
+        ]
+        raw_text = "\n".join(text_blocks)
+    elif isinstance(last_message, str):
+        raw_text = last_message
+    else:
+        raw_text = str(last_message)
+
+    # Clean up excess whitespace
+    cleaned_text = re.sub(r'\n{3,}', '\n\n', raw_text).strip()
+    return cleaned_text
 
 
 # ==========================================
@@ -203,8 +238,8 @@ def build_bonton_agent():
 
 async def main():
     print("=" * 80)
-    print("   BONTON AGENTIC AI (GEMINI + LANGGRAPH MVP RUN)")
-    print("=" * 80)
+    print("   BONTON AGENTIC AI — AUTONOMOUS PRODUCTION ORCHESTRATOR")
+    print("=" * 80 + "\n")
 
     agent = build_bonton_agent()
 
@@ -217,8 +252,10 @@ async def main():
 
     response = await agent.ainvoke({"messages": [HumanMessage(content=user_query)]})
 
-    print("\n--- AGENT RESPONSE ---")
-    print(response["messages"][-1].content)
+    # Format output
+    beautiful_output = format_agent_response(response)
+
+    print(beautiful_output)
     print("\n" + "=" * 80)
 
 # Run the async loop
