@@ -12,7 +12,8 @@ packages = [
     "langgraph-checkpoint-sqlite",
     "pandas",
     "openpyxl",
-    "pydantic"
+    "pydantic",
+    "asyncio"
 ]
 
 # Install packages programmatically
