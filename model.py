@@ -14,7 +14,6 @@ from langchain_core.messages import HumanMessage
 # ==========================================
 # 1. DETERMINISTIC CAPACITY & FLOW ENGINE
 # ==========================================
-
 class CapacityEngine:
     """Deterministic calculations for plant effective rate, shortfall, and makespans."""
 
@@ -172,7 +171,8 @@ def tool_evaluate_interventions(order_qty: int, shortfall_hours: float) -> str:
 def build_bonton_agent():
     # Initialize Gemini Model via ChatGoogleGenerativeAI
     llm = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash",
+        model="gemini-3.1-flash-lite",
+        google_api_key="=============API_KEY_HERE===============",
         temperature=0.1
     )
 
