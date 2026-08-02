@@ -17,9 +17,6 @@ An agentic AI system designed for **Bonton Technomake Pvt. Ltd.** to solve capac
 - [Demand Forecasting Module](#-demand-forecasting-module)
 - [Repository Structure](#-repository-structure)
 - [Installation & Quickstart](#-installation--quickstart)
-- [Evaluation & Ablation Framework](#-evaluation--ablation-framework)
-- [Implementation Roadmap](#-implementation-roadmap)
-- [License](#-license)
 
 ---
 
@@ -234,23 +231,4 @@ bonton-agentic-planner/
    ```bash
    streamlit run app/streamlit_app.py
    ```
-
----
-
-## 🧪 Evaluation & Ablation Framework
-
-The framework provides empirical validation using a Golden Test Set of 25–30 realistic manufacturing scenarios:
-
-### Comparative Ablation Framework
-```bash
-python eval/ablation.py
-```
-
-| Configuration | Bottleneck Accuracy | Hallucinated Numbers | Rec. Validity | Token Cost / Run |
-| :--- | :---: | :---: | :---: | :---: |
-| **A. Single LLM (No tools)** | Low (~40%) | High (>30%) | Low | ~$0.02 |
-| **B. Single LLM + Tools** | Medium (~85%) | Low (~5%) | Medium | ~$0.05 |
-| **C. Multi-Agent + Tools** | High (100%) | Near Zero | High (~90%) | ~$0.09 |
-| **D. Multi-Agent + Tools + Critic** | **100%** | **0%** | **>95%** | **~$0.11** |
-
 ---
