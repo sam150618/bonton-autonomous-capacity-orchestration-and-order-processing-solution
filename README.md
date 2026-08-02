@@ -3,8 +3,6 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Framework: LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
-[![UI: Streamlit](https://img.shields.io/badge/UI-Streamlit-red.svg)](https://streamlit.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An agentic AI system designed for **Bonton Technomake Pvt. Ltd.** to solve capacity bottlenecks, optimize makespan scheduling, and automate Available-to-Promise (ATP) decision-making for recurring Quick Service Restaurant (QSR) furniture programs (e.g., Jubilant Foodworks chair production).
 
