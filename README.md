@@ -1,5 +1,4 @@
-# Bonton Agentic AI Planner
-> **Autonomous Capacity Orchestration & Order Promising for Make-to-Order Manufacturing**
+# Bonton Autonomous Capacity Orchestration & Order Promising for Make-to-Order Manufacturing
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Framework: LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
